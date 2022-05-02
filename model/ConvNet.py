@@ -1,3 +1,6 @@
+import torch
+from torch import nn
+from torch.nn import functional as F
 from base.base_model import BaseModel 
 class LitConvNet(BaseModel):
     def __init__(self, **config):
@@ -32,9 +35,6 @@ class LitConvNet(BaseModel):
         preds = torch.argmax(logits, 1)
         
         # log metrics
-        self.log('train/loss', loss, on_epoch = True)
-        self.log('train/acc', accuracy(preds, labels), on_epoch = True)
-        
         # log images
 #         img_grid = torchvision.utils.make_grid(images, on_)
 #         self.logger.experiment.add_image('train/images', img_grid)
