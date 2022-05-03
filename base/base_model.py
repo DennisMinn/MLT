@@ -9,7 +9,7 @@ class BaseModel(pl.LightningModule):
     Abstract class for all models
     """
     @abstractmethod
-    def forward(self, input_ids, attention_mask):
+    def forward(self, x):
         """
         Forward pass logic
         :return: Model output
@@ -31,7 +31,7 @@ class BaseModel(pl.LightningModule):
         """
         raise NotImplementedError
 
-     def configure_optimizers(self):
+    def configure_optimizers(self):
         """
         initializes optimizers
         """
@@ -49,7 +49,7 @@ class BaseModel(pl.LightningModule):
                 'recall': recal,
                 'f1_score': f1}
     
-    def _log_metrics(self, stage, metrics):
+    def _log_metrics(self, path, metrics):
         for metric, value in metrics.items():
-            self.log(f'{stage}/{metric}', value)
+            self.log(f'{path}/{metric}', value)
   
