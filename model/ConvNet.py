@@ -1,7 +1,9 @@
 import torch
+import torchvision
 from torch import nn
 from torch.nn import functional as F
 from base.base_model import BaseModel 
+
 class LitConvNet(BaseModel):
     def __init__(self, **config):
         super(LitConvNet, self).__init__()
@@ -10,9 +12,10 @@ class LitConvNet(BaseModel):
         self.conv2 = nn.Conv2d(6, 16, 5)
         self.fc1 = nn.Linear(16 * 4 * 4, 120)
         self.fc2 = nn.Linear(120, 84)
-        self.fc3 = nn.Linear(84, 10)
+        self.fc3 = nn.Linear(84, config['out_dims'])
         
         self.save_hyperparameters()
+        self.example_input_array = torch.zeros(config['batch_size'], *config['in_dims'])
 
     def forward(self, x):
         x = self.pool(F.relu(self.conv1(x)))
@@ -40,8 +43,7 @@ class LitConvNet(BaseModel):
 
         self._log_metrics('train', metrics)
 
-        # log images
-        return {'loss': loss}
+        return {'loss': loss, 'logits': logits}
 
     def validation_step(self, batch, batch_index):
         images, labels = batch
@@ -53,6 +55,12 @@ class LitConvNet(BaseModel):
         metrics['loss'] = loss
 
         self._log_metrics('validation', metrics)
-
+        
         # log images
+        tensorboard = self.logger.experiment
+        img_grid = torchvision.utils.make_grid(images)
+        tensorboard.add_image('val_imgs', img_grid)
+
+        # log logits
+        tensorboard.add_histogram('val_logits', logits)
         return {'loss': loss}

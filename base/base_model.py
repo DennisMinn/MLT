@@ -52,4 +52,3 @@ class BaseModel(pl.LightningModule):
     def _log_metrics(self, path, metrics):
         for metric, value in metrics.items():
             self.log(f'{path}/{metric}', value)
-  
