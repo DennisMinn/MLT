@@ -35,10 +35,24 @@ class LitConvNet(BaseModel):
         preds = torch.argmax(logits, 1)
         
         # log metrics
+        metrics = self._calculate_metrics(preds, labels)
+        metrics['loss'] = loss
+
+        self._log_metrics('train', metrics)
+
         # log images
-#         img_grid = torchvision.utils.make_grid(images, on_)
-#         self.logger.experiment.add_image('train/images', img_grid)
         return {'loss': loss}
 
     def validation_step(self, batch, batch_index):
-        pass
+        images, labels = batch
+        logits, loss = self.loss(images, labels)
+        preds = torch.argmax(logits, 1)
+        
+        # log metrics
+        metrics = self._calculate_metrics(preds, labels)
+        metrics['loss'] = loss
+
+        self._log_metrics('validation', metrics)
+
+        # log images
+        return {'loss': loss}
