@@ -56,8 +56,8 @@ class LitNeuralNet(BaseModel):
         # log images
         tensorboard = self.logger.experiment
         img_grid = torchvision.utils.make_grid(images)
-        tensorboard.add_image('val_imgs', img_grid)
+        tensorboard.add_image('validation/images', img_grid)
 
         # log logits
-        tensorboard.add_histogram('val_logits', logits)
+        tensorboard.add_histogram('validation/logits', logits)
         return {'loss': loss}
