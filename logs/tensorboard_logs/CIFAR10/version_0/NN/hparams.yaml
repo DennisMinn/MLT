@@ -1,0 +1,8 @@
+batch_size: 128
+in_dims: !!python/tuple
+- 3
+- 32
+- 32
+learning_rate: 2.0e-05
+num_epochs: 3
+out_dims: 10
