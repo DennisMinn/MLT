@@ -3,9 +3,9 @@
 ```bash
 python -m venv ml_toolkit_env
 
-pip install -r requirements.txt
-
 source ml_toolkit_env/bin/activate
+
+pip install -r requirements.txt
 ```
 
 * To training and log a model, please use either the
