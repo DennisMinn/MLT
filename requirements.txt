@@ -1,0 +1,6 @@
+notebook # comment out if you have a working implementation of jupyter notebook
+numpy
+torch
+torchvision
+pytorch-lightning
+wandb
